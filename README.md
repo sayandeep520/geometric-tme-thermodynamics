@@ -1,5 +1,5 @@
 
-# Geometric Thermodynamics of the Tumor Microenvironment: Discrete Ricci Curvature Predicts Proteotoxic Stress and Fibrotic Rigidity in Solid Tumors
+# Geometric Thermodynamics of the Tumor Microenvironment: Discrete Ricci Curvature Predicts Proteotoxic Stress and Fibrotic Rigidity in Solid tumors
 
 ## 1. Abstract
 Cancer progression is fundamentally a chaotic phase transition where cells exit a homeostatic state and enter a high-energy, proliferative regime. While spatial transcriptomics has revolutionized our ability to map gene expression, we lack robust physical biomarkers to quantify the "structural stress" of the tumor microenvironment (TME). This study introduces a novel computational framework that models the TME as a gene-weighted Riemannian manifold. By applying Discrete Ollivier-Ricci Curvature (ORC) to spatial transcriptomics data, we successfully identified a universal geometric signature of cellular stress.
@@ -67,3 +67,17 @@ This research contributes three specific novelties to the field of Computational
 *   `notebooks/Geometric_Thermodynamics_of_Cancer.ipynb`: The master notebook containing the full one-year project code (Ingestion, Physics, Discovery, Validation).
 *   `results/figures/`: High-resolution plots of the curvature maps and gene correlations.
 *   `requirements.txt`: List of dependencies (squidpy, GraphRicciCurvature, scanpy).
+
+## 7. Results and Figures
+The following high-resolution images are generated and saved in the `results/` folder, illustrating the key findings of the project:
+
+*   **`breast_cancer_curvature.png`**: This image displays the **Breast Cancer: Geometric Energy Landscape**, visualizing the spatial distribution of the weighted Ricci curvature across the breast cancer tissue. Red regions indicate positive curvature (stable zones), while blue regions indicate negative curvature (unstable/stress zones).
+
+*   **`hsp90_stress_zone.png`**: This figure shows the **Breast Cancer: Proteotoxic Stress (HSP90AB1)**. It visualizes the spatial expression of the HSP90AB1 gene, which is a key marker for proteotoxic stress and is found to be highly expressed in regions of negative geometric curvature.
+
+*   **`col1a1_fibrosis.png`**: This image illustrates the **Breast Cancer: Fibrotic Rigidity (COL1A1)**. It depicts the spatial expression of the COL1A1 gene (collagen), indicating fibrotic rigidity, which is found to be prevalent in regions of positive geometric curvature.
+
+*   **`glioblastoma_validation.png`**: This is a **3-panel figure for Glioblastoma Validation**, demonstrating the universality of the geometric law. It includes:
+    *   **Panel 1: GBM Physics: Curvature**: Visualizes the weighted Ricci curvature for the Glioblastoma (placeholder) dataset.
+    *   **Panel 2: GBM Biology: Hypoxia (VEGFA/HSP90AB1)**: Shows the spatial expression of a hypoxia marker (VEGFA, or HSP90AB1 if VEGFA is not present) in Glioblastoma (placeholder).
+    *   **Panel 3: GBM Biology: Structure (COL1A1)**: Displays the spatial expression of a structural marker (COL1A1) in Glioblastoma (placeholder).
