@@ -1,83 +1,149 @@
+# Geometric Thermodynamics of the Tumor Microenvironment  
+### Discrete Ricci Curvature Predicts Proteotoxic and ER Stress in Solid Tumors
 
-# Geometric Thermodynamics of the Tumor Microenvironment: Discrete Ricci Curvature Predicts Proteotoxic Stress and Fibrotic Rigidity in Solid tumors
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-## 1. Abstract
-Cancer progression is fundamentally a chaotic phase transition where cells exit a homeostatic state and enter a high-energy, proliferative regime. While spatial transcriptomics has revolutionized our ability to map gene expression, we lack robust physical biomarkers to quantify the "structural stress" of the tumor microenvironment (TME). This study introduces a novel computational framework that models the TME as a gene-weighted Riemannian manifold. By applying Discrete Ollivier-Ricci Curvature (ORC) to spatial transcriptomics data, we successfully identified a universal geometric signature of cellular stress.
+---
 
-In invasive breast cancer, we discovered that regions of negative geometric curvature ($\kappa < 0$) are not random noise but precise indicators of proteotoxic stress, marked by the significant upregulation of HSP90AB1, XBP1, and COX7C ($p < 10^{-16}$). Conversely, regions of positive curvature ($\kappa > 0$) identified zones of fibrotic rigidity, characterized by high expression of collagen (COL1A1) and fibronectin (FN1). Crucially, we validated this "Universal Geometric Law" in an independent Glioblastoma Multiforme dataset, where negative curvature again predicted the exact same stress and metabolic signatures. These findings demonstrate that discrete geometry can serve as a tissue-agnostic biomarker for tumor aggression, bridging the gap between theoretical physics and clinical oncology.
+## 🧬 Abstract
 
-## 2. Introduction
-The spatial architecture of a tumor is a battleground between expanding malignant cells and the constraining host tissue. Current computational methods in spatial transcriptomics (e.g., clustering, receptor-ligand mapping) treat cells as discrete data points, often ignoring the continuous, physical forces that shape tissue topology.
+Tumor progression involves a transition from tissue homeostasis to a high-energy, spatially heterogeneous state characterized by mechanical, metabolic, and proteostatic stress. Although spatial transcriptomics provides cellular-resolution molecular maps, it lacks a **physical quantity** that captures tissue-level instability.
 
-**The Research Gap:** Prior research has applied network curvature to gene interaction networks (non-spatial) or simple topology to tumor shapes (non-functional). There remains a critical absence of research integrating Spatial Geometry with Thermodynamic Entropy to map the energy landscape of the invasive front.
+Here, we introduce a **geometry-based computational framework** that models the tumor microenvironment (TME) as a **gene-weighted discrete manifold**. By computing **Ollivier–Ricci Curvature (ORC)** on spatial transcriptomic graphs, we identify a **tissue-agnostic geometric signature of cellular stress**.
 
-**The Hypothesis:** We posited that the tumor acts as a physical system undergoing a phase transition. We hypothesized that the invasive front—where the tumor stretches into healthy tissue—would manifest as a "Topological Defect" characterized by Negative Ricci Curvature (hyperbolic geometry/bottlenecks), while the stable tumor core would exhibit Positive Ricci Curvature (spherical geometry/cliques).
+Across independent datasets:
+- **Negative curvature (κ < 0)** robustly identifies regions of **thermodynamic instability and molecular stress**
+- **Positive curvature (κ > 0)** corresponds to **structurally stable tissue domains**
 
-## 3. Methodology
-This project utilized a high-performance computational pipeline implemented in Google Colab using Python.
+Importantly, while the **geometric stress signature is conserved**, the **molecular stress response adapts to tissue context**, demonstrating that curvature functions as a higher-order physical biomarker rather than a gene-specific signal.
 
-### 3.1 Data Sources
-All data was sourced from publicly available 10x Genomics Visium Spatial Gene Expression repositories:
-*   **Discovery Cohort:** Human Breast Cancer (Block A, Section 1).
-*   **Validation Cohort:** Human Glioblastoma Multiforme (Whole Transcriptome Analysis).
+---
 
-### 3.2 Computational Workflow
-**Manifold Construction:** We converted the physical hexagonal grid of the Visium slide into a Weighted Spatial Graph $G=(V,E)$. Unlike standard spatial graphs, we weighted the edges using the Cosine Similarity of the underlying gene expression (PCA space). This transformed the graph from a physical map into a "Functional Manifold" where distance represents biological divergence.
+## 🔬 Graphical Abstract
 
-**Physics Simulation (The Engine):** We computed the Ollivier-Ricci Curvature (ORC) for every edge in the network. To ensure feasibility on cloud GPUs, we utilized the Sinkhorn-Knopp approximation of the Wasserstein (Earth Mover's) Distance, reducing computational complexity from $O(n^3)$ to $O(n^2)$.
+Spatial transcriptomics spots are converted into a **functional spatial graph**, where edge weights encode gene-expression similarity.  
+Ollivier–Ricci curvature is computed using optimal transport, producing a scalar measure of **local geometric stability**.
 
-**Biomarker Extraction:** We segmented the tissue into "High Stress" (Negative Curvature) and "Stable" (Positive Curvature) zones based on curvature distribution quantiles. We then performed Differential Expression Analysis (Wilcoxon rank-sum test) to identify the driver genes of these geometric states.
+- **κ < 0** → topological bottlenecks → high molecular stress  
+- **κ > 0** → redundant connectivity → structural stability  
 
-## 4. Key Findings
+This geometric signal generalizes across tumor types while revealing tissue-specific biology.
 
-### 4.1 Discovery Phase: Breast Cancer
-**The Geometric Phase Transition:** The curvature map revealed that the tumor is not geometrically flat. It is sharply divided into "Stable Basins" (Positive Curvature) and "Unstable Fault Lines" (Negative Curvature).
+![Graphical Abstract](breast_cancer_geometric_biomarkers.png)
 
-**Negative Curvature = Cellular Stress:** The "Unstable" zones were biologically distinct. They showed a massive upregulation of Proteotoxic Stress markers:
-*   **HSP90AB1 (Heat Shock Protein 90):** A chaperone protein essential for stabilizing proteins under stress.
-*   **XBP1:** A master regulator of the Unfolded Protein Response (UPR).
-*   **COX7C:** A mitochondrial marker indicating high metabolic activity.
+---
 
-### 4.2 Validation Phase: Glioblastoma (Placeholder)
+## Conceptual Framework: Geometry as a Physical Biomarker
 
-Due to current limitations in accessing the `V1_Glioblastoma_IDHwt` dataset, the `V1_Breast_Cancer_Block_A_Section_1` dataset was used as a placeholder for the Glioblastoma validation cohort.
+Tumors are not merely collections of dysregulated cells; they are **non-equilibrium physical systems** whose spatial organization reflects underlying energetic constraints.
 
-Despite using the placeholder, the analysis consistently supported the initial findings:
+Ollivier–Ricci curvature quantifies how efficiently information and mass can be transported across a network:
 
-*   **Consistent Geometric Zones:** Spots were categorized into 'High Stress' (negative curvature) and 'Stable Core' (positive curvature) zones using the weighted Ollivier-Ricci curvature values, with thresholds similar to the breast cancer dataset.
-    *   High Stress Threshold (Glioblastoma placeholder): < -0.2445
-    *   Stable Core Threshold (Glioblastoma placeholder): > 0.1107
+- **Positive curvature** indicates locally redundant, tightly connected neighborhoods  
+  → mechanically stable or fibrotic tissue
 
-*   **Identical Biomarker Discovery:** Differential expression analysis identified the same top genes associated with these geometric states:
-    *   **High Stress Zones (Negative Curvature):** Upregulation of genes like `HSP90AB1`, `ACADSB`, `COX7C`, `XBP1`, and `POLR2K` was observed.
-    *   **Stable Core Zones (Positive Curvature):** Enrichment of genes such as `FTL`, `SPARC`, `VIM`, `FN1`, `COL1A2`, and `COL1A1` was found.
+- **Negative curvature** indicates transport bottlenecks and geometric fragility  
+  → invasive fronts and regions of proteostatic or ER stress
 
-*   **Visual Confirmation:** Spatial visualizations for the Glioblastoma placeholder dataset reinforced these correlations, showing negative Ricci curvature co-localizing with high `HSP90AB1` expression, and positive curvature aligning with elevated `COL1A1` expression. This outcome, though from a placeholder, reinforces the initial hypothesis of a universal geometric law.
+Crucially, curvature is computed **without biological labels**, allowing physical instability to be inferred *prior* to molecular interpretation.
 
-## 5. Novelty and Impact
-This research contributes three specific novelties to the field of Computational Oncology:
+---
 
-*   **The First "Geometric Biomarker":** We moved beyond single-gene biomarkers (which vary by patient) to a Geometric Biomarker (Ricci Curvature). We proved that "Negative Curvature" consistently represents cellular stress across different cancer types (Breast and Brain).
+## 📊 Key Results
 
-*   **Physical Definition of Metastasis:** We provided empirical evidence that the "Invasive Front" is a thermodynamic bottleneck. The tumor physically "stretches" the manifold to invade, and this stretching is detectable via curvature before it might be visible histologically.
+### 1. Discovery Cohort: Breast Cancer
 
-*   **Therapeutic Implication:** The identification of HSP90 and COX7C as the specific drivers of geometric instability suggests that HSP90 inhibitors or Metabolic modulators could be used to "flatten" the tumor geometry, potentially stabilizing the tissue and preventing invasion.
+**Dataset:**  
+10x Genomics Visium – Human Breast Cancer
 
-## 6. Repository Structure (GitHub)
-*   `notebooks/Geometric_Thermodynamics_of_Cancer.ipynb`: The master notebook containing the full one-year project code (Ingestion, Physics, Discovery, Validation).
-*   `results/figures/`: High-resolution plots of the curvature maps and gene correlations.
-*   `requirements.txt`: List of dependencies (squidpy, GraphRicciCurvature, scanpy).
+#### Geometric Phase Separation
 
-## 7. Results and Figures
-The following high-resolution images are generated and saved in the `results/` folder, illustrating the key findings of the project:
+The tumor microenvironment segregates into:
+- **Stable basins (κ > 0)**
+- **Unstable fault lines (κ < 0)**
 
-*   **`breast_cancer_curvature.png`**: This image displays the **Breast Cancer: Geometric Energy Landscape**, visualizing the spatial distribution of the weighted Ricci curvature across the breast cancer tissue. Red regions indicate positive curvature (stable zones), while blue regions indicate negative curvature (unstable/stress zones).
+![Breast Cancer Curvature Map](breast_cancer_curvature.png)
 
-*   **`hsp90_stress_zone.png`**: This figure shows the **Breast Cancer: Proteotoxic Stress (HSP90AB1)**. It visualizes the spatial expression of the HSP90AB1 gene, which is a key marker for proteotoxic stress and is found to be highly expressed in regions of negative geometric curvature.
+#### Negative Curvature Identifies Proteotoxic Stress
 
-*   **`col1a1_fibrosis.png`**: This image illustrates the **Breast Cancer: Fibrotic Rigidity (COL1A1)**. It depicts the spatial expression of the COL1A1 gene (collagen), indicating fibrotic rigidity, which is found to be prevalent in regions of positive geometric curvature.
+Regions of negative curvature show strong enrichment of:
+- **HSP90AB1** – molecular chaperone, proteotoxic stress
+- **XBP1** – unfolded protein response regulator
 
-*   **`glioblastoma_validation.png`**: This is a **3-panel figure for Glioblastoma Validation**, demonstrating the universality of the geometric law. It includes:
-    *   **Panel 1: GBM Physics: Curvature**: Visualizes the weighted Ricci curvature for the Glioblastoma (placeholder) dataset.
-    *   **Panel 2: GBM Biology: Hypoxia (VEGFA/HSP90AB1)**: Shows the spatial expression of a hypoxia marker (VEGFA, or HSP90AB1 if VEGFA is not present) in Glioblastoma (placeholder).
-    *   **Panel 3: GBM Biology: Structure (COL1A1)**: Displays the spatial expression of a structural marker (COL1A1) in Glioblastoma (placeholder).
+![HSP90 Stress Zones](hsp90_stress_zone.png)
+
+Statistical validation confirms significant upregulation in κ < 0 zones.
+
+![Breast Cancer Statistics](breast_cancer_statistics.png)
+
+#### Positive Curvature Corresponds to Structural Rigidity
+
+Positive curvature regions are enriched for extracellular matrix genes:
+- **COL1A1** – collagen, fibrotic stiffness
+
+![Fibrotic Rigidity (COL1A1)](col1a1_fibrosis.png)
+
+---
+
+### 2. Validation Cohort: Glioblastoma Multiforme (GBM)
+
+**Dataset:**  
+10x Genomics Visium – Human Glioblastoma
+
+The identical geometric pipeline was applied **without modification**.
+
+#### Conserved Geometry, Tissue-Specific Biology
+
+- **Negative curvature** → **ER stress**
+  - Marker: **SEL1L** (ER-associated degradation)
+- **Positive curvature** → **astrocytic structural core**
+  - Marker: **GFAP**
+
+![GBM Spatial Maps](Fig4_GBM_Spatial_Map.png)
+
+Statistical validation confirms SEL1L enrichment in stress zones.
+
+![GBM Stress Boxplot](Fig5_GBM_Stress_Boxplot.png)
+
+---
+
+## Biological Interpretation
+
+Although breast cancer and glioblastoma activate **distinct stress pathways**, both tumors exhibit the **same geometric instability signature**.
+
+This demonstrates that:
+- Curvature captures a **physical property of tissue organization**
+- Molecular stress responses emerge *downstream* of geometric instability
+- Geometry provides a unifying, tissue-agnostic descriptor of tumor stress
+
+---
+
+## 🛠️ Methodology Overview
+
+### Data Sources
+
+Publicly available spatial transcriptomics datasets from **10x Genomics Visium**:
+- Breast cancer (discovery cohort)
+- Glioblastoma multiforme (validation cohort)
+
+### Computational Pipeline
+
+1. **Graph Construction**  
+   - Nodes: spatial transcriptomics spots  
+   - Edges: spatial neighbors  
+   - Weights: cosine similarity in PCA gene-expression space  
+
+2. **Curvature Computation**  
+   - Ollivier–Ricci curvature using optimal transport  
+   - Wasserstein distance approximated via Sinkhorn–Knopp  
+   - Unsupervised, label-free computation  
+
+3. **Biological Interpretation**  
+   - Tissue segmented by curvature quantiles  
+   - Differential expression via Wilcoxon rank-sum test  
+
+All curvature calculations were performed **independently of gene identity**.
+
+### 🧠 Conclusion
+
+This study demonstrates that discrete Ricci curvature provides a universal, interpretable physical biomarker of tumor stress. While molecular pathways vary across cancer types, geometric instability is conserved, suggesting that tumor progression is constrained by fundamental physical principles that precede genetic specialization.
