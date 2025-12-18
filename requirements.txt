@@ -1,0 +1,10 @@
+
+squidpy
+scanpy
+pandas
+matplotlib
+networkx
+GraphRicciCurvature
+scikit-learn
+seaborn
+scipy
