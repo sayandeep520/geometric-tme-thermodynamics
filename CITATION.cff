@@ -2,8 +2,8 @@
 cff-version: 1.2.0
 message: "If you use this software or methodology, please cite it as below."
 authors:
-- family-names: "YOUR_LAST_NAME"
-  given-names: "YOUR_FIRST_NAME"
+- family-names: "Bera"
+  given-names: "Sayan_Deep"
 title: "Geometric Thermodynamics of the Tumor Microenvironment"
 version: 1.0.0
 date-released: 2025-05-12
